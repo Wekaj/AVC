@@ -1,16 +1,16 @@
 # Planning
 
 ## Week 1 Checklist
-For week one the generl goal is to get the basic design of our robot, while also getting all ways of communication sorted and some
-basic forward/ turning movment code for the robot
-- [ ] Decide on group meetings - week 1 meet 2 - 3 thursday 
-- [ ] Gail: get prototype design for chassis/robot
-- [ ] Gus : synthesise forward motion code/ 
-- [ ] Annisha: synthesise turning code - basic code
-- [ ] Jake : Get GitHub up and running
-- [ ] Annisha: Sort groups/chats for the team
-- [ ] group : decide how we will be programming our robot, or how it will get through the maze
-- [ ]  arthur said to not use ir sensors for the tape, use the camera?
+For week one the general goal is to get the basic design of our robot done, while also sorting out all of our methods of communication and writing some basic movement code for the robot.
+- [ ] Decide on group meetings - week 1 meet 2 - 3 thursday.
+- [ ] Decide how we will be programming our robot, or how it will get through the maze.
+
+- [ ] Gail: Start the prototype design for the chassis/robot.
+- [ ] Gus: Write the basic forward motion code.
+- [ ] Annisha: Write the basic turning code.
+- [ ] Jake: Get the GitHub repository up and running.
+- [ ] Annisha: Sort out the groups/chats for the team.
+- [ ] arthur said to not use ir sensors for the tape, use the camera?
 
 ## Week 2 Checklist
 By the end of week two we hope to have the design/chassis of the robot finished, then our group can start(at the end of the week/start of nweek 3) testing the robot with the code we have been writing. 
