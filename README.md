@@ -1,18 +1,16 @@
 # Planning
 
 ## AVC Project Timetable
-Overall project plan
-
-| Week  | Team Objective(s)  | Items Due | Conflicting Committments | Tasks |
-| :------------ | :---------------: | ------: | ------: | ------: |
-| 1 | Robot moving | Plan due (Friday @ midnight) | ENGR101 test | [Checklist](#week-1) | 
-| 2 | | | | [Checklist](#week-2) |
-| 3 | | | | [Checklist](#week-3) |
-| 4 | Quadrants 1 & 2 completed | Progress report due (Monday @ midnight) | | [Checklist](#week-4) |
-| 5 | Quadrant 3 completed | | | [Checklist](#week-5) |
-| 6 | Quadrant 4 completed | | | [Checklist](#week-6) |
-| ... | ... | ... | ... | ... |
-| 8 | Submit final reports | Final report due (Monday @ midday) | Exams | |
+| Week | Team Objectives      | Items Due                               | Conflicting Commitments | Tasks     |
+|------|----------------------|-----------------------------------------|-------------------------|-----------|
+| 1    | Robot moving         | Plan due (Friday @ midnight)            | ENGR101 test            | [Checklist](#week-1) |
+| 2    |                      |                                         |                         | [Checklist](#week-2) |
+| 3    | Quadrant 1 completed |                                         |                         | [Checklist](#week-3) |
+| 4    | Quadrant 2 completed | Progress report due (Monday @ midnight) |                         | [Checklist](#week-3) |
+| 5    | Quadrant 3 completed |                                         |                         | [Checklist](#week-3) |
+| 6    | Quadrant 4 completed |                                         |                         | [Checklist](#week-3) |
+| 7    |                      |                                         |                         | [Checklist](#week-3) |
+| 8    | Submit final report  | Final report due (Monday @ midday)      | Exams                   | [Checklist](#week-3) |
 
 ## Weekly Checklists
 
