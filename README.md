@@ -5,14 +5,14 @@ Overall project plan
 
 | Week  | Team Objective(s)  | Items Due | Conflicting Committments | Tasks |
 | :------------ |:---------------:| ------: | ------: | ------: |
-| 1   | Robot moving | AVC Plan Due | PHYS122 test | [Week 1 Checklist](#week-1-checklist) | 
-| 2   |  |  | | [Week 2 Checklist](#week-2-checklist) |
-| 3   |  |  | | [Week 3 Checklist](#week-3-checklist) |
-| 4   | Quadrants 1 & 2 completed |  | | [Week 4 Checklist](#week-4-checklist) |
-| 5   | Quadrant 3 completed |  | | [Week 5 Checklist](#week-5-checklist) |
-| 6   | Quadrant 4 completed |  | | [Week 6 Checklist](#week-6-checklist) |
+| 1   | Robot moving | Plan due (Friday @ midnight) | ENGR101 test | [Week 1 Checklist](#week-1) | 
+| 2   |  |  | | [Week 2 Checklist](#week-2) |
+| 3   |  |  | | [Week 3 Checklist](#week-3) |
+| 4   | Quadrants 1 & 2 completed | Progress report due (Monday @ midnight) | | [Week 4 Checklist](#week-4) |
+| 5   | Quadrant 3 completed |  | | [Week 5 Checklist](#week-5) |
+| 6   | Quadrant 4 completed |  | | [Week 6 Checklist](#week-6) |
 | ...     | ... | ... | ... | ... |
-| 9   | Submit final reports | Final report due | Exams | |
+| 8   | Submit final reports | Final report due (Monday @ midday) | Exams | |
 
 ## Weekly Checklists
 
