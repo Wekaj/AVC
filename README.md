@@ -6,11 +6,11 @@
 | 1    | Robot moving         | Plan due (Friday @ midnight)            | ENGR101 test            | [Checklist](#week-1) |
 | 2    |                      |                                         |                         | [Checklist](#week-2) |
 | 3    | Quadrant 1 completed |                                         |                         | [Checklist](#week-3) |
-| 4    | Quadrant 2 completed | Progress report due (Monday @ midnight) |                         | [Checklist](#week-3) |
-| 5    | Quadrant 3 completed |                                         |                         | [Checklist](#week-3) |
-| 6    | Quadrant 4 completed |                                         |                         | [Checklist](#week-3) |
-| 7    |                      |                                         |                         | [Checklist](#week-3) |
-| 8    | Submit final report  | Final report due (Monday @ midday)      | Exams                   | [Checklist](#week-3) |
+| 4    | Quadrant 2 completed | Progress report due (Monday @ midnight) |                         | [Checklist](#week-4) |
+| 5    | Quadrant 3 completed |                                         |                         | [Checklist](#week-5) |
+| 6    | Quadrant 4 completed |                                         |                         | [Checklist](#week-6) |
+| 7    |                      |                                         |                         | [Checklist](#week-7) |
+| 8    | Submit final report  | Final report due (Monday @ midday)      | Exams                   | [Checklist](#week-8) |
 
 ## Weekly Checklists
 
@@ -64,3 +64,7 @@ By the end of week 6 we want to have quadrant 4 complete, and to be able to run 
 - [ ] Gus: Debug the code we have and continue writing code.
 - [ ] Jake: Debug the code we have and continue writing code.
 - [ ] Mel: Debug the code we have and continue writing code.
+
+### Week 7
+
+### Week 8
