@@ -27,19 +27,19 @@ For week one the general goal is to get the basic design of our robot done, whil
 
 ### Week 2
 By the end of week two we hope to have the design/chassis of the robot finished, then our group can start (at the end of the week/start of week 3) testing the robot with the code we have been writing. 
-- [ ] Annisha: Write code for moving using sensors.
+- [ ] Annisha: Debug the existing code/improve it.
 - [ ] Gail: Finish the robot design/chassis.
 - [ ] Gus: Write code for moving using sensors.
 - [ ] Jake: Write code for moving using sensors.
-- [ ] Mal: Write basic code for the opening of the door.
+- [ ] Mal: Write turning movement code.
 
 ### Week 3
 By the end of week three, we hope to have all bugs fixed with the physical running of the robot, while still working on writing the code for the robot/debugging the code.
 - [ ] Annisha: Test the code for straight/maybe turning functions of robot.
-- [ ] Gail: Debug the robots bugs???
+- [ ] Gail: Begin construction of robot
 - [ ] Gus: Debug the code we have and continue writing code.
-- [ ] Jake: Debug the code we have and continue writing code.
-- [ ] Mal: Debug the code we have and continue writing code.
+- [ ] Jake: Write code to communicate with the door.
+- [ ] Mal: Begin integrating sensor and movement code.
 
 ### Week 4
 The AVC progress report is due on Monday the 22nd, at start of week 4. By the end of week 4 we want to have quadrants 1 and 2 completed.
