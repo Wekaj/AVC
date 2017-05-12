@@ -34,8 +34,8 @@ By the end of week two we hope to have the design/chassis of the robot finished,
 - [ ] Mal: Write turning movement code.
 
 ### Week 2 Completed Tasks
--Chassis done for the most part - just need a wheel/support at the back. Gail will aim to finish the design by Sunday, and get printing on Monday.
--Jake made a start on the code for the movement of the motors. The robot can turn its motors depending on the picture taken by the camera. Aim to test this out properly on the maze once we finish the physical construction of the robot.
+- Chassis done for the most part - just need a wheel/support at the back. Gail will aim to finish the design by Sunday, and get printing on Monday.
+- Jake made a start on the code for the movement of the motors. The robot can turn its motors depending on the picture taken by the camera. Aim to test this out properly on the maze once we finish the physical construction of the robot.
 
 ### Week 3
 By the end of week three, we hope to have all bugs fixed with the physical running of the robot, while still working on writing the code for the robot/debugging the code.
