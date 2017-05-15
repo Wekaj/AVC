@@ -6,7 +6,7 @@
 | 1    | Robot moving         | Plan due (Friday @ midnight)            | ENGR101 test            | [Checklist](#week-1) |
 | 2    |                      |                                         |                         | [Checklist](#week-2) |
 | 3    | Quadrant 1 completed |                                         | COMP102 test            | [Checklist](#week-3) |
-| 4    | Quadrant 2 completed | Progress report due (Monday @ midnight) |                         | [Checklist](#week-4) |
+| 4    | Quadrant 2 completed | Progress report due (Monday @ midnight) | ENRG121 test            | [Checklist](#week-4) |
 | 5    | Quadrant 3 completed |                                         |                         | [Checklist](#week-5) |
 | 6    | Quadrant 4 completed |                                         |                         | [Checklist](#week-6) |
 | 7    |                      |                                         |                         | [Checklist](#week-7) |
