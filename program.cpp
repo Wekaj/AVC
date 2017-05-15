@@ -3,22 +3,24 @@
 #include "E101.h"
 
 class sensorTestResult {
-  private double whitePosition;
-  private int numOfWhite;
-  
-  public sensorTestResult(double whitePosition, int numOfWhite) {
-    this.whitePosition = whitePosition;
-    this.numOfWhite = numOfWhite;
-  }
-  
-  public double get_white_position() {
-    return whitePosition;
-  }
-  
-  public int get_num_of_white() {
-    return numOfWhite;
-  }
-}
+	private: 
+		double whitePosition;
+		int numOfWhite;
+
+	public:
+		sensorTestResult(double whitePosition, int numOfWhite) {
+			sensorTestResult::whitePosition = whitePosition;
+			sensorTestResult::numOfWhite = numOfWhite;
+		}
+
+		double get_white_position() {
+			return whitePosition;
+		}
+
+		int get_num_of_white() {
+			return numOfWhite;
+		}
+};
 
 int cameraWidth = 320;
 int cameraHeight = 240;
@@ -26,42 +28,42 @@ int motorLeft = 1;
 int motorRight = 2;
 
 void set_movement(double direction, bool reverse) {
-  double left = (int)(255.0 * (direction + 1.0) / 2.0);
-  double right = (int)(255.0 * (direction - 1.0) / 2.0);
-  
-  if (reverse) {
-    set_motor(motorLeft, -right);
-    set_motor(motorRight, -left);
-  }
-  else {
-    set_motor(motorLeft, left);
-    set_motor(motorRight, right);
-  }
+	double left = (int)(255.0 * (direction + 1.0) / 2.0);
+	double right = (int)(255.0 * (direction - 1.0) / 2.0);
+
+	if (reverse) {
+		set_motor(motorLeft, -right);
+		set_motor(motorRight, -left);
+	}
+	else {
+		set_motor(motorLeft, left);
+		set_motor(motorRight, right);
+	}
 }
 
 sensorTestResult get_white_position() {
-  take_picture();
-  
-  double sum = 0.0;
-  int numOfWhite = 0;
-  for (int i = 0; i < cameraWidth; i++) {
-    char white = get_pixel(cameraHeight / 2, i, 3);
-    if (white > 127) {
-      sum += i - cameraWidth / 2.0;
-      numOfWhite++;
-    }
-  }
-  
-  if (numOfWhite == 0) {
-    return 0;
-  }
-  
-  return new sensorTestResult((sum / numOfWhite) / (cameraWidth / 2), numOfWhite);
+	take_picture();
+
+	double sum = 0.0;
+	int numOfWhite = 0;
+	for (int i = 0; i < cameraWidth; i++) {
+		char white = get_pixel(cameraHeight / 2, i, 3);
+		if (white > 127) {
+			sum += i - cameraWidth / 2.0;
+			numOfWhite++;
+		}
+	}
+
+	if (numOfWhite == 0) {
+		return sensorTestResult(0.0, 0);
+	}
+
+	return sensorTestResult((sum / numOfWhite) / (cameraWidth / 2), numOfWhite);
 }
 
 void reset() {
-  set_motor(motorLeft, 0);
-  set_motor(motorRight, 0);
+	set_motor(motorLeft, 0);
+	set_motor(motorRight, 0);
 }
 
 int main() {
