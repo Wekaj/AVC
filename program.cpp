@@ -31,9 +31,13 @@ void set_movement(double direction, bool reverse) {
 	double left = (int)(255.0 * (direction + 1.0) / 2.0);
 	double right = (int)(255.0 * (direction - 1.0) / 2.0);
 
+	// make the robot slower for testing purposes.
+	left /= 4.0;
+	right /= 4.0;
+
 	if (reverse) {
-		set_motor(motorLeft, -right);
-		set_motor(motorRight, -left);
+		set_motor(motorLeft, -left);
+		set_motor(motorRight, -right);
 	}
 	else {
 		set_motor(motorLeft, left);
@@ -71,7 +75,14 @@ int main() {
   
   while (true) {
     sensorTestResult result = get_white_position();
-    set_movement(result.get_white_position(), result.get_num_of_white() == 0);
+    
+    if (result.get_num_of_white() == 0) {
+		set_movement(0.25, true);
+	}
+	else {
+		set_movement(result.get_white_position(), false);
+	}
+    
     printf("%f\n", result.get_white_position());
     sleep1(0, 100000);
   }
