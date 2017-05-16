@@ -76,32 +76,32 @@ void reset() {
 }
 
 int main() {
-  init();
-  
-  while (true) {
-    sensorTestResult result = get_white_position(cameraHeight / 2);
-    sensorTestResult previousResult = get_white_position(cameraHeight * 3 / 4);
-    
-    double positionSignal = result.get_white_position() * kp;
-    
-    double difference = result.get_white_position() - previousResult.get_white_position();
-    double derivativeSignal = (difference / (delay / 1000000.0)) * kd;
-    
-    totalError += result.get_white_position();
-    double integralSignal = totalError * ki;
-    
-    if (result.get_num_of_white() == 0) {
-		set_movement(0.25, true);
+	init();
+
+	while (true) {
+		sensorTestResult result = get_white_position(cameraHeight / 2);
+		sensorTestResult previousResult = get_white_position(cameraHeight * 3 / 4);
+
+		double positionSignal = result.get_white_position() * kp;
+
+		double difference = result.get_white_position() - previousResult.get_white_position();
+		double derivativeSignal = (difference / (delay / 1000000.0)) * kd;
+
+		totalError += result.get_white_position();
+		double integralSignal = totalError * ki;
+
+		if (result.get_num_of_white() == 0) {
+			set_movement(0.25, true);
+		}
+		else {
+			set_movement(positionSignal + derivativeSignal + integralSignal, false);
+		}
+
+		printf("%f\n", result.get_white_position());
+		sleep1(0, delay);
 	}
-	else {
-		set_movement(positionSignal + derivativeSignal + integralSignal, false);
-	}
-    
-    printf("%f\n", result.get_white_position());
-    sleep1(0, delay);
-  }
-  
-  reset();
-  
-  return 0;
+
+	reset();
+
+	return 0;
 }
