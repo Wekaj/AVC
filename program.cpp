@@ -80,7 +80,7 @@ int main() {
 
 	while (true) {
 		sensorTestResult result = get_white_position(cameraHeight / 2);
-		sensorTestResult previousResult = get_white_position(cameraHeight * 3 / 4);
+		sensorTestResult previousResult = get_white_position((int)(cameraHeight * 3.0 / 4.0));
 
 		double positionSignal = result.get_white_position() * kp;
 
@@ -89,12 +89,22 @@ int main() {
 
 		totalError += result.get_white_position();
 		double integralSignal = totalError * ki;
-
-		if (result.get_num_of_white() == 0) {
-			set_movement(0.25, true);
+		
+		double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
+		if (percentageWhite >= 0.75) {
+			// turn left.
+		}
+		else if (percentageWhite >= 0.25) {
+			// if the pixels are mainly on the left, turn left.
+			// otherwise:
+			// check vertically for a forwards path. if it exists, go forwards.
+			// otherwise, turn right.
+		}
+		else if (percentageWhite > 0.0)	{
+			set_movement(positionSignal + derivativeSignal + integralSignal, false);
 		}
 		else {
-			set_movement(positionSignal + derivativeSignal + integralSignal, false);
+			set_movement(0.25, true);
 		}
 
 		printf("%f\n", result.get_white_position());
