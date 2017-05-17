@@ -31,10 +31,19 @@ double kp = 1.0;
 double kd = 1.0;
 double ki = 1.0;
 double totalError = 0.0;
+double maxSpeed = 254.0;
 
 void set_movement(double direction, bool reverse) {
-	double left = (int)(255.0 * (direction + 1.0) / 2.0);
-	double right = (int)(255.0 * (direction - 1.0) / 2.0);
+	// prevent the direction from exceeding the motors' speed limits.
+	if (direction > 1.0) {
+		direction = 1.0;
+	}
+	else if (direction < -1.0) {
+		direction = -1.0;
+	}
+
+	double left = (int)(maxSpeed * (direction + 1.0) / 2.0);
+	double right = (int)(maxSpeed * (direction - 1.0) / 2.0);
 
 	// make the robot slower for testing purposes.
 	left /= 4.0;
