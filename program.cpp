@@ -30,7 +30,6 @@ int motorRight = 2;
 double kp = 0.5;
 double kd = 0.5;
 double ki = 0.5;
-double totalError = 0.0;
 double maxSpeed = 254.0;
 
 void set_movement(double direction, bool reverse) {
@@ -88,18 +87,26 @@ int main() {
 	init();
 
 	while (true) {
-		sensorTestResult result = get_white_position(cameraHeight / 2);
-		sensorTestResult previousResult = get_white_position((int)(cameraHeight * 3.0 / 4.0));
+		sensorTestResult[] results = new sensorTestResult[4];
+		double totalError = 0.0;
+		for (int i = 0; i < 4; i++) {
+			results[i] = get_white_position(cameraHeight / 2 + cameraHeight * i / 8);
+			totalError += results[i].get_white_position();
+		}
 
-		double positionSignal = result.get_white_position() * kp;
+		double positionSignal = results[0].get_white_position() * kp;
 
-		double difference = result.get_white_position() - previousResult.get_white_position();
+		double difference = results[0].get_white_position() - results[1].get_white_position();
 		double derivativeSignal = (difference / (delay / 1000000.0)) * kd;
 
-		totalError += result.get_white_position();
 		double integralSignal = totalError * ki;
 		
-		double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
+		double percentageWhite = (double)results[0].get_num_of_white() / cameraWidth;
+		
+		printf("Position: %f\n", positionSignal);
+		printf("Derivative: %f\n", derivativeSignal);
+		printf("Integral: %f\n", integralSignal);
+		
 		//if (percentageWhite >= 0.75) {
 			// turn left.
 		//}
@@ -109,9 +116,6 @@ int main() {
 			// check vertically for a forwards path. if it exists, go forwards.
 			// otherwise, turn right.
 		//}
-		printf("Position: %f\n", positionSignal);
-		printf("Derivative: %f\n", derivativeSignal);
-		printf("Integral: %f\n", integralSignal);
 		if (percentageWhite > 0.0)	{
 			set_movement(positionSignal + derivativeSignal + integralSignal, false);
 		}
