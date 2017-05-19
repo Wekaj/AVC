@@ -8,6 +8,11 @@ class sensorTestResult {
 		int numOfWhite;
 
 	public:
+		sensorTestResult() {
+			whitePosition = 0.0;
+			numOfWhite = 0;
+		}
+	
 		sensorTestResult(double whitePosition, int numOfWhite) {
 			sensorTestResult::whitePosition = whitePosition;
 			sensorTestResult::numOfWhite = numOfWhite;
@@ -22,14 +27,14 @@ class sensorTestResult {
 		}
 };
 
-int delay = 100000;
+int delay = 10000;
 int cameraWidth = 320;
 int cameraHeight = 240;
 int motorLeft = 1;
 int motorRight = 2;
-double kp = 0.5;
-double kd = 0.5;
-double ki = 0.5;
+double kp = 0.6;
+double kd = 0.0001;
+double ki = 0.001;
 double maxSpeed = 254.0;
 
 void set_movement(double direction, bool reverse) {
@@ -43,10 +48,9 @@ void set_movement(double direction, bool reverse) {
 
 	double left = (int)(maxSpeed * (direction + 1.0) / 2.0);
 	double right = (int)(maxSpeed * (direction - 1.0) / 2.0);
-
-	// make the robot slower for testing purposes.
-	left /= 4.0;
-	right /= 4.0;
+	
+	left /= 2.5;
+	right /= 2.5;
 
 	if (reverse) {
 		set_motor(motorLeft, -left);
@@ -60,13 +64,13 @@ void set_movement(double direction, bool reverse) {
 
 sensorTestResult get_white_position(int row) {
 	take_picture();
-
+	
 	double sum = 0.0;
 	int numOfWhite = 0;
 	for (int i = 0; i < cameraWidth; i++) {
 		char white = get_pixel(row, i, 3);
-		if (white > 127) {
-			sum += i - cameraWidth / 2.0;
+		if (white > 100) {
+			sum += (cameraWidth - i) - cameraWidth / 2.0;
 			numOfWhite++;
 		}
 	}
@@ -85,12 +89,12 @@ void reset() {
 
 int main() {
 	init();
-
+	
 	while (true) {
-		sensorTestResult[] results = new sensorTestResult[4];
+		sensorTestResult results[4];
 		double totalError = 0.0;
 		for (int i = 0; i < 4; i++) {
-			results[i] = get_white_position(cameraHeight / 2 + cameraHeight * i / 8);
+			results[i] = get_white_position(cameraHeight / 2 + cameraHeight * i / 8 - 1);
 			totalError += results[i].get_white_position();
 		}
 
@@ -123,7 +127,7 @@ int main() {
 			set_movement(0.25, true);
 		}
 
-		printf("%f\n", result.get_white_position());
+		printf("%f\n", results[0].get_white_position());
 		sleep1(0, delay);
 	}
 
