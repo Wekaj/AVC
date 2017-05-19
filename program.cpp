@@ -27,9 +27,9 @@ int cameraWidth = 320;
 int cameraHeight = 240;
 int motorLeft = 1;
 int motorRight = 2;
-double kp = 1.0;
-double kd = 1.0;
-double ki = 1.0;
+double kp = 0.5;
+double kd = 0.5;
+double ki = 0.5;
 double totalError = 0.0;
 double maxSpeed = 254.0;
 
@@ -100,16 +100,19 @@ int main() {
 		double integralSignal = totalError * ki;
 		
 		double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
-		if (percentageWhite >= 0.75) {
+		//if (percentageWhite >= 0.75) {
 			// turn left.
-		}
-		else if (percentageWhite >= 0.25) {
+		//}
+		//else if (percentageWhite >= 0.25) {
 			// if the pixels are mainly on the left, turn left.
 			// otherwise:
 			// check vertically for a forwards path. if it exists, go forwards.
 			// otherwise, turn right.
-		}
-		else if (percentageWhite > 0.0)	{
+		//}
+		printf("Position: %f\n", positionSignal);
+		printf("Derivative: %f\n", derivativeSignal);
+		printf("Integral: %f\n", integralSignal);
+		if (percentageWhite > 0.0)	{
 			set_movement(positionSignal + derivativeSignal + integralSignal, false);
 		}
 		else {
