@@ -53,14 +53,14 @@ By the end of week three, we hope to have all bugs fixed with the physical runni
 
 ### Week 4
 The AVC progress report is due on Monday the 22nd, at start of week 4. By the end of week 4 we want to have quadrants 1 and 2 completed.
-- [ ] Annisha: Implement gate opening
-- [ ] Gail: Make any improvemnts to robots design after tests/code.
+- [x] Annisha: Implement gate opening
+- [x] Gail: Make any improvemnts to robots design after tests/code.
 - [ ] Gus: Debug the code we have and continue writing code.
 - [ ] Jake: Debug the code we have and continue writing code.
 - [ ] Mal: Debug the code we have and continue writing code.
 - [ ] Sharp turns
 - [ ] Dead ends
-- [ ] Refine PID (?)
+- [x] Refine PID (?)
 
 ### Week 5
 By the end of week 5 we want to have quadrant 3 complete. By now, all of us will be working on the code and regularly testing our robot.
