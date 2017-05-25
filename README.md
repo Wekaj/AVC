@@ -40,19 +40,27 @@ By the end of week two we hope to have the design/chassis of the robot finished,
 ### Week 3
 By the end of week three, we hope to have all bugs fixed with the physical running of the robot, while still working on writing the code for the robot/debugging the code.
 - [ ] Annisha: Test the code for straight/maybe turning functions of robot while on maze.
-- [ ] Gail: Finish construction of robot
-- [ ] Gus: Debug the code we have and continue writing code.
+- [x] Gail: Finish construction of robot
+- [x] Gus: Debug the code we have and continue writing code.
 - [ ] Jake: Write code to communicate with the door.
 - [ ] Mal: Begin integrating sensor and movement code.
-- [ ] Begin implementation of PID
+- [x] Begin implementation of PID
+
+### Week 3 Completed Tasks
+- Robot is now up and running thanks to Gail
+- Jake, Gus and Annisha worked on the getting the robot to follow the line. This involved playing with PID constants, altering the speed of the motors and changing the row of pixels that was being read.
+- Robot navigates a great deal of quadrant 1 (straight line) and quadrant 2 (curvy lines) relatively smoothly. Next we should look to get the robot to handle sharp turns and dead ends for quadrant 3.
 
 ### Week 4
 The AVC progress report is due on Monday the 22nd, at start of week 4. By the end of week 4 we want to have quadrants 1 and 2 completed.
-- [ ] Annisha: Test robot/coding.
-- [ ] Gail: Make any improvemnts to robots design after tests/code.
+- [x] Annisha: Implement gate opening
+- [x] Gail: Make any improvemnts to robots design after tests/code.
 - [ ] Gus: Debug the code we have and continue writing code.
 - [ ] Jake: Debug the code we have and continue writing code.
 - [ ] Mal: Debug the code we have and continue writing code.
+- [ ] Sharp turns
+- [ ] Dead ends
+- [x] Refine PID (?)
 
 ### Week 5
 By the end of week 5 we want to have quadrant 3 complete. By now, all of us will be working on the code and regularly testing our robot.
