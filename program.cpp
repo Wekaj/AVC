@@ -39,11 +39,13 @@ double kp = 0.6;
 double kd = 0.025;
 double ki = 0.001;
 double maxSpeed = 254.0;
+double speed = 0.4;
 double totalError = 0.0;
 double lastPosition = 0.0;
 double cameraTime = 1.0 / 24.0;
 int whiteCounter = 0;
-int quadrant = 3;
+int quadrant = 1;
+int reverseCounter = 0;
 
 void set_movement(double direction, bool reverse) {
 	// prevent the direction from exceeding the motors' speed limits.
@@ -57,8 +59,8 @@ void set_movement(double direction, bool reverse) {
 	double left = (int)(maxSpeed * (direction + 1.0) / 2.0);
 	double right = (int)(maxSpeed * (direction - 1.0) / 2.0);
 	
-	left /= 2.5;
-	right /= 2.5;
+	left *= speed;
+	right *= speed;
 
 	if (reverse) {
 		set_motor(motorLeft, -left);
@@ -86,6 +88,17 @@ sensorTestResult get_white_position(int row) {
 	}
 
 	return sensorTestResult((sum / numOfWhite) / (cameraWidth / 2), numOfWhite);
+}
+
+int get_column(int column) {
+	int whitePixels = 0;
+	for (int i = cameraHeight / 4; i < cameraHeight * 3 / 4; i++) {
+		char white = get_pixel(i, column, 3);
+		if (white > 90) {
+			whitePixels++;
+		}
+	}
+	return whitePixels;
 }
 
 int main() {
@@ -141,43 +154,47 @@ int main() {
 			}
 		}
 		else if (quadrant == 3) {
-			if (percentageWhite >= 0.9) {
-				printf("Full junction.\n");
-				sleep1(0, 120000);
-				set_movement(-1.0, false);
-				sleep1(0, 200000);
+			if (percentageWhite >= 0.8) {
+				printf("Left path.\n");
+				sleep1(1, 0);
+				set_motor(motorLeft, -0.3 * maxSpeed);
+				set_motor(motorRight, -0.3 * maxSpeed);
+				sleep1(0, 250000);
 				set_movement(0.0, false);
 			}
-			else if (percentageWhite >= 0.4) {
-				if (result.get_white_position() > 0.2) {
-					printf("Right path.\n");
-					sleep1(0, 120000);
-					set_movement(1.0, false);
-					sleep1(0, 200000);
+			else if (percentageWhite >= 0.3) {
+				if (result.get_white_position() < -0.2) {
+					printf("Left path.\n");
+					sleep1(1, 0);
+					set_motor(motorLeft, -0.3 * maxSpeed);
+					set_motor(motorRight, -0.3 * maxSpeed);
+					sleep1(0, 250000);
 					set_movement(0.0, false);
 				}
-				else if (result.get_white_position() < 0.2){
-					printf("Left path.\n");
-					sleep1(0, 120000);
-					set_movement(-1.0, false);
-					sleep1(0, 200000);
+				else if (result.get_white_position() > 0.2) {
+					printf("Right path.\n");
+					sleep1(1, 0);
+					set_motor(motorLeft, 0.3 * maxSpeed);
+					set_motor(motorRight, 0.3 * maxSpeed);
+					sleep1(0, 250000);
 					set_movement(0.0, false);
 				}
 				else {
-					printf("Forward path.\n");
-					sleep1(0, 120000);
+					printf("Middle path.\n");
+					sleep1(0, 250000);
 					set_movement(0.0, false);
-					sleep1(0, 200000);
-					set_movement(0.0, false);
+					sleep1(0, 500000);
 				}
 			}
 			else if (percentageWhite > 0.0)	{
 				set_movement(positionSignal + derivativeSignal + integralSignal, false);
 			}
 			else {
-				set_movement(0.25, true);
+				set_movement(-lastPosition / 2, true);
 				integralSignal = 0.0;
-				sleep1(0, 20000);
+				sleep1(0, 750000);
+				set_movement(0.0, false);
+				sleep1(0, 750000);
 			}
 		}
 		else if (percentageWhite >= 0.8) {
@@ -185,6 +202,7 @@ int main() {
 			
 			if (whiteCounter > 2) {
 				quadrant = 3;
+				speed = 0.3;
 				set_movement(0.0, false);
 				sleep1(0, 500000);
 			}
