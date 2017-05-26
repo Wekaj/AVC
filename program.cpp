@@ -39,7 +39,7 @@ double kp = 0.6;
 double kd = 0.025;
 double ki = 0.001;
 double maxSpeed = 254.0;
-double speed = 0.4;
+double speed = 0.3;
 double totalError = 0.0;
 double lastPosition = 0.0;
 double cameraTime = 1.0 / 24.0;
@@ -77,7 +77,7 @@ sensorTestResult get_white_position(int row) {
 	int numOfWhite = 0;
 	for (int i = 0; i < cameraWidth; i++) {
 		char white = get_pixel(row, i, 3);
-		if (white > 90) {
+		if (white > 100) {
 			sum += (cameraWidth - i) - cameraWidth / 2.0;
 			numOfWhite++;
 		}
@@ -115,25 +115,25 @@ sensorTestResult calculateAverageResult(int centre, int numOfTries, int spacing)
 	return sensorTestResult(whitePosition, numOfWhite);
 }
 
-double calculatePositionSignal(sensorTestResult result) {
+double calculatePositionSignal(sensorTestResult result, double kp) {
 	return result.get_white_position() * kp;
 }
 
-double calculateDerivativeSignal(sensorTestResult result, double lastPosition) {
+double calculateDerivativeSignal(sensorTestResult result, double lastPosition, double kd) {
 	double difference = result.get_white_position() - lastPosition;
 	return (difference / cameraTime) * kd;
 }
 
-double calculateIntegralSignal(sensorTestResult result, double totalError) {
+double calculateIntegralSignal(sensorTestResult result, double totalError, double ki) {
 	return totalError * ki;
 }
 
-double calculatePIDSignal(sensorTestResult result) {
+double calculatePIDSignal(sensorTestResult result, double kp, double kd, double ki) {
 	totalError += result.get_white_position();
 	
-	double totalSignal = calculatePositionSignal(result)
-		+ calculateDerivativeSignal(result, lastPosition)
-		+ calculateIntegralSignal(result, totalError);
+	double totalSignal = calculatePositionSignal(result, kp)
+		+ calculateDerivativeSignal(result, lastPosition, kd)
+		+ calculateIntegralSignal(result, totalError, ki);
 		
 	lastPosition = result.get_white_position();
 	
@@ -188,6 +188,8 @@ void doQuadrantTwo() {
 	
 	sensorTestResult result = calculateAverageResult(cameraHeight * 3 / 4, 3, cameraHeight / 8);
 	
+	double signal = calculatePIDSignal(result, kp, kd, ki);
+	
 	double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
 	if (percentageWhite >= 0.8) {
 		whiteCounter++;
@@ -200,7 +202,7 @@ void doQuadrantTwo() {
 		}
 	}
 	else if (percentageWhite > 0.0)	{
-		set_movement(calculatePIDSignal(result), false);
+		set_movement(signal, false);
 		whiteCounter = 0;
 	}
 	else {
@@ -214,52 +216,44 @@ void doQuadrantTwo() {
 void doQuadrantThree() {
 	take_picture();
 	
-	sensorTestResult result = calculateAverageResult(cameraHeight * 3 / 4, 3, cameraHeight / 8);
+	sensorTestResult result = get_white_position(cameraHeight * 3 / 4);
 	
 	double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
-	if (percentageWhite >= 0.8) {
+	if (percentageWhite >= 0.75) {
 		printf("Left path.\n");
-		sleep1(1, 0);
-		set_motor(motorLeft, -0.3 * maxSpeed);
-		set_motor(motorRight, -0.3 * maxSpeed);
-		sleep1(0, 250000);
+		sleep1(0, 600000);
+		set_motor(motorLeft, -0.175 * maxSpeed);
+		set_motor(motorRight, -0.2 * maxSpeed);
+		sleep1(0, 575000);
 		set_movement(0.0, false);
 	}
-	else if (percentageWhite >= 0.4) {
-		sensorTestResult resultAbove = get_white_position(0);
-		double percentageWhiteAbove = (double)resultAbove.get_num_of_white() / cameraWidth;
-		if (result.get_white_position() < -0.2) {
+	else if (percentageWhite >= 0.6) {
+		if (result.get_white_position() < 0.2) {
 			printf("Left path.\n");
-			sleep1(1, 0);
-			set_motor(motorLeft, -0.3 * maxSpeed);
-			set_motor(motorRight, -0.3 * maxSpeed);
-			sleep1(0, 250000);
-			set_movement(0.0, false);
-		}
-		else if (result.get_white_position() > 0.2 && percentageWhiteAbove <= 0.3) {
-			printf("Right path.\n");
-			sleep1(1, 0);
-			set_motor(motorLeft, 0.3 * maxSpeed);
-			set_motor(motorRight, 0.3 * maxSpeed);
-			sleep1(0, 250000);
+			sleep1(0, 600000);
+			set_motor(motorLeft, -0.175 * maxSpeed);
+			set_motor(motorRight, -0.2 * maxSpeed);
+			sleep1(0, 575000);
 			set_movement(0.0, false);
 		}
 		else {
-			printf("Middle path.\n");
-			sleep1(0, 250000);
+			printf("Right path.\n");
+			sleep1(0, 600000);
+			set_motor(motorLeft, 0.2 * maxSpeed);
+			set_motor(motorRight, 0.175 * maxSpeed);
+			sleep1(0, 575000);
 			set_movement(0.0, false);
-			sleep1(0, 500000);
 		}
 	}
 	else if (percentageWhite > 0.0)	{
-		set_movement(calculatePIDSignal(result), false);
+		set_movement(calculatePIDSignal(result, kp, kd, 0) * 1.3, false);
 	}
 	else {
-		set_movement(-lastPosition / 2, true);
+		set_movement(-lastPosition * 2 / 3, true);
 		totalError = 0.0;
-		sleep1(0, 750000);
+		sleep1(0, 900000);
 		set_movement(0.0, false);
-		sleep1(0, 750000);
+		sleep1(0, 900000);
 	}
 }
 
