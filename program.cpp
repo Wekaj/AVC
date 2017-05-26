@@ -72,12 +72,12 @@ void set_movement(double direction, bool reverse) {
 	}
 }
 
-sensorTestResult get_white_position(int row) {
+sensorTestResult get_white_position(int row){
 	double sum = 0.0;
 	int numOfWhite = 0;
 	for (int i = 0; i < cameraWidth; i++) {
 		char white = get_pixel(row, i, 3);
-		if (white > 100) {
+		if (white > 90) {
 			sum += (cameraWidth - i) - cameraWidth / 2.0;
 			numOfWhite++;
 		}
@@ -171,6 +171,8 @@ void doQuadrantOne() {
 	if (whiteCounter > 100) {
 		quadrant = 2;
 		
+		
+		
 		char pass[24];
 		connect_to_server((char*)"130.195.6.196", 1024);
 		send_to_server((char*)"Please");
@@ -179,7 +181,7 @@ void doQuadrantOne() {
 		
 		whiteCounter = 0;
 		
-		sleep1(2, 0);
+		sleep1(1, 0);
 	}
 }
 
@@ -191,8 +193,9 @@ void doQuadrantTwo() {
 	double signal = calculatePIDSignal(result, kp, kd, ki);
 	
 	double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
-	if (percentageWhite >= 0.8) {
+	if (percentageWhite >= 0.6) {
 		whiteCounter++;
+		
 		
 		if (whiteCounter > 2) {
 			quadrant = 3;
@@ -211,26 +214,29 @@ void doQuadrantTwo() {
 		totalError = 0.0;
 		whiteCounter = 0;
 	}
+	printf("White count: %d \n", whiteCounter);
 }
 
 void doQuadrantThree() {
 	take_picture();
 	
-	sensorTestResult result = calculateAverageResult(cameraHeight * 3 / 4, 3, cameraHeight / 48);
+	sensorTestResult result = calculateAverageResult(cameraHeight * 3 / 4, 3, cameraHeight / 60);
+	
+	printf("Quadrant 3");
 	
 	double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
-	if (percentageWhite >= 0.85) {
+	if (percentageWhite >= 0.6) {
 		printf("Left path.\n");
-		sleep1(0, 600000);
+		sleep1(0, 590000);
 		set_motor(motorLeft, -0.175 * maxSpeed);
 		set_motor(motorRight, -0.2 * maxSpeed);
 		sleep1(0, 575000);
 		set_movement(0.0, false);
 	}
 	else if (percentageWhite >= 0.4) {
-		if (result.get_white_position() < 0.2) {
+		if (result.get_white_position() < 0) {
 			printf("Left path.\n");
-			sleep1(0, 600000);
+			sleep1(0, 590000);
 			set_motor(motorLeft, -0.175 * maxSpeed);
 			set_motor(motorRight, -0.2 * maxSpeed);
 			sleep1(0, 575000);
@@ -238,7 +244,7 @@ void doQuadrantThree() {
 		}
 		else {
 			printf("Right path.\n");
-			sleep1(0, 600000);
+			sleep1(0, 590000);
 			set_motor(motorLeft, 0.2 * maxSpeed);
 			set_motor(motorRight, 0.175 * maxSpeed);
 			sleep1(0, 575000);
@@ -289,6 +295,6 @@ int main() {
 				break;
 		}
 	}
-
+	printf("done");
 	return 0;
 }
