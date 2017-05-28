@@ -82,6 +82,15 @@ int frontSensor;
 int leftSensor;
 int rightSensor;
 
+// how close a wall must be for it to be considered adjacent to the robot.
+int frontWallDistance;
+int sideWallDistance;
+
+// the PID constants for quadrant four. they will probably need to be quite small.
+double kp2 = 0.05;
+double kd2 = 0.005;
+double ki2 = 0.005;
+
 // sets the robot's movement based off of a direction value ranging from -1.0 (left) to 1.0 (right).
 // the second parameter should be 'true' only if you want the robot to reverse in the provided direction.
 void set_movement(double direction, bool reverse) {
@@ -227,6 +236,30 @@ void open_gate() {
 	send_to_server(pass);
 }
 
+// causes the robot to take a sharp left turn.
+void turn_left() {
+	set_motor(motorLeft, -0.175 * maxSpeed);
+	set_motor(motorRight, -0.2 * maxSpeed);
+
+	// turn for a set period of time.
+	sleep1(0, 575000);
+
+	// continue forward.
+	set_movement(0.0, false);
+}
+
+// causes the robot to take a sharp right turn.
+void turn_right() {
+	set_motor(motorLeft, 0.2 * maxSpeed);
+	set_motor(motorRight, 0.175 * maxSpeed);
+
+	// turn for a set period of time.
+	sleep1(0, 575000);
+
+	// continue forward.
+	set_movement(0.0, false);
+}
+
 // this is a testing mode that displays what the camera sees to the console.
 void do_quadrant_zero() {
 	take_picture();
@@ -325,6 +358,8 @@ void do_quadrant_three() {
 	sensorTestResult result = average_row_test(cameraHeight * 3 / 4, 3, cameraHeight / 60);
 	
 	printf("Quadrant 3 ");
+
+	// TODO: detect orange (?) line at the start of quadrant 4 and swap quadrants.
 	
 	double percentageWhite = (double)result.get_num_of_white() / cameraWidth;
 	if (percentageWhite >= 0.6) {
@@ -335,14 +370,7 @@ void do_quadrant_three() {
 		// wait before turning.
 		sleep1(0, 590000);
 
-		set_motor(motorLeft, -0.175 * maxSpeed);
-		set_motor(motorRight, -0.2 * maxSpeed);
-
-		// turn for a set period of time.
-		sleep1(0, 575000);
-
-		// continue forward.
-		set_movement(0.0, false);
+		turn_left();
 	}
 	else if (percentageWhite >= 0.4) {
 		// the percentage of white indicates that the robot is at a half junction.
@@ -353,14 +381,7 @@ void do_quadrant_three() {
 			// wait before turning.
 			sleep1(0, 590000);
 
-			set_motor(motorLeft, -0.175 * maxSpeed);
-			set_motor(motorRight, -0.2 * maxSpeed);
-
-			// turn for a set period of time.
-			sleep1(0, 575000);
-
-			// continue forward.
-			set_movement(0.0, false);
+			turn_left();
 		}
 		else {
 			// otherwise, turn right.
@@ -369,14 +390,7 @@ void do_quadrant_three() {
 			// wait before turning.
 			sleep1(0, 590000);
 
-			set_motor(motorLeft, 0.2 * maxSpeed);
-			set_motor(motorRight, 0.175 * maxSpeed);
-
-			// turn for a set period of time.
-			sleep1(0, 575000);
-
-			// continue forward.
-			set_movement(0.0, false);
+			turn_right();
 		}
 	}
 	else if (percentageWhite > 0.0)	{
@@ -412,12 +426,60 @@ void do_quadrant_three() {
 void do_quadrant_four() {
 	speed = quadrantFourSpeed;
 
+	// this isn't really used for anything, but it causes a brief delay, doesn't it, which is taken into account
+	// for the derivative signal.
+	take_picture();
+
 	// TODO: get values correctly.
 	int frontSensorValue;
 	int leftSensorValue;
 	int rightSensorValue;
 
-	// TODO: do similar functionality to quadrant three, but using sensor values instead of white pixels.
+	bool frontWall = frontSensorValue <= frontWallDistance;
+	bool leftWall = leftSensorValue <= sideWallDistance;
+	bool rightWall = rightSensorValue <= sideWallDistance;
+
+	// TODO: maybe check for left openings and always turn left if one is detected? to make solving every maze possible.
+
+	if (frontWall) {
+		// since there is a wall in front of the robot, it needs to turn.
+		if (!leftWall) {
+			sleep1(0, 250000);
+
+			turn_left();
+		}
+		else if (!rightWall) {
+			sleep1(0, 250000);
+
+			turn_right();
+		}
+		else {
+			// if it is in a dead end, turn right twice to escape.
+			// this will not end well, might need some changing.
+			turn_right();
+			turn_right();
+		}
+
+		// reset the PID variables.
+		lastPosition = 0.0;
+		totalError = 0.0;
+	}
+	else {
+		// TODO: tune constants for quadrant four's PID.
+		double error = rightSensorValue - leftSensorValue;
+
+		double positionSignal = error * kp2;
+
+		double difference = error - lastPosition;
+		double derivativeSignal = (difference / cameraTime) * kd2;
+
+		double integralSignal = totalError * ki2;
+
+		set_movement(positionSignal + derivativeSignal + integralSignal, false);
+
+		lastPosition = error;
+		totalError += error;
+	}
 }
 
 int main() {
